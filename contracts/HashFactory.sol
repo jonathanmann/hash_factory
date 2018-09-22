@@ -1,26 +1,25 @@
 pragma solidity ^0.4.18;
 
 contract HashFactory {
-    event NewHash(uint id, string text);
+    event NewHash(uint id, string hash);
     string[] public hashes;
+    mapping (uint => address) public hashToAuthor;
 
-    mapping (uint => address) public hashToOwner;
-
-    function createHash(string _text) public {
-        uint id = hashes.push(_text) - 1;
-        hashToOwner[id] = msg.sender;
-        emit NewHash(id,_text);
+    function createHash(string _hash) public {
+        uint id = hashes.push(_hash) - 1;
+        hashToAuthor[id] = msg.sender;
+        emit NewHash(id,_hash);
     }
 
-    function getHashContent(uint id) public view returns (string) {
-        return hashes[id];
+    function getHash(uint _hashId) public view returns (string) {
+        return hashes[_hashId];
     }
 
-    function getHasher(uint id) public view returns (address) {
-       return hashToOwner[id];
+    function getHashAuthor(uint _hashId) public view returns (address) {
+       return hashToAuthor[_hashId];
     }
 
-    function getHashistSize() public view returns (uint) {
+    function getHashListSize() public view returns (uint) {
         return hashes.length;
     }
 }
